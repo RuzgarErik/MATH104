@@ -1,0 +1,793 @@
+\documentclass[12pt,a4paper]{article}
+%setting margins
+\usepackage[margin=1in]{geometry}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%packages
+\usepackage{amsmath}
+\usepackage{blindtext}
+\usepackage{fancyhdr}
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{setspace}
+\usepackage{tcolorbox}
+\usepackage{pgfplots}
+\usepackage{multicol}
+\usepackage{subfiles} % Best loaded last in the preamble
+\pgfplotsset{compat=1.18}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage[thinc]{esdiff}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{fancy}
+\fancyhead[l]{Rüzgar Erik}
+\fancyhead[c]{Notes For the 12th Unit}
+\fancyhead[r]{MATH104}
+\fancyfoot[c]{\thepage}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{15pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%makes all equations centered use originalequation for normal mode
+\let\originalequation\equation
+\let\endoriginalequation\endequation
+
+\renewenvironment{equation}
+  {\begin{center}\originalequation}
+  {\endoriginalequation\end{center}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Define a new tcolorbox environment named "definition"
+  \newtcolorbox{definitionbox}{
+    colback=blue!5!white,
+    colframe=blue!75!black,
+    title=DEFINITION
+  }
+  
+  \newenvironment{definition}{\begin{definitionbox}}{\end{definitionbox}\vspace{1\baselineskip}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\example}{\vspace{1\baselineskip}\par\noindent\textcolor{red}{EXAMPLE: }}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Define a new tcolorbox environment named "theorem"
+\newtcolorbox{theorembox}{
+    colback=red!5!white,
+    colframe=red!75!black,
+    title=THEOREM
+  }
+  
+  \newenvironment{theorem}{\begin{theorembox}}{\end{theorembox}\vspace{1\baselineskip}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newtcolorbox{corollarybox}{
+    colback=blue!5!white,
+    colframe=blue!75!black,
+    title=Corollary
+}
+  
+\newenvironment{corollary}{\begin{corollarybox}}{\end{corollarybox}\vspace{1\baselineskip}}
+
+
+\newtcolorbox{rulebox}[1]{
+    colback=red!5!white,
+    colframe=red!75!black,
+    title=#1
+}
+
+\newenvironment{ruleBox}[1]{\begin{rulebox}{#1}}{\end{rulebox}\vspace{1\baselineskip}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Define a new tcolorbox environment named "theorem"
+
+\newtcolorbox{note}{
+    colback=white,
+    colframe=black,
+}
+
+\newenvironment{mynote}{\vspace{1\baselineskip}\begin{note}}{\end{note}\vspace{1\baselineskip}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\newcommand{\lopital}{L'Hôpital's Rule }
+\newcommand{\anc}{\(\{a_n\}\)}
+\newcommand{\an}{\(a_n\)}
+\newcommand{\infsum}{\sum_{n=1}^{\infty}}
+
+\fancypagestyle{firstpage}{
+    \fancyhf{} % Clear header and footer
+    \renewcommand{\headrulewidth}{0pt} % Remove header rule
+}
+
+% Redefine \maketitle to include a fancy box
+\makeatletter
+\renewcommand{\maketitle}{%
+  \thispagestyle{firstpage} % Apply the firstpage style for the first page
+  \begin{tcolorbox}[colback=white,colframe=black,width=\textwidth,arc=0mm,auto outer arc]
+    \begin{center}
+      \Large \@title \\[1ex] \large \@date \\ \textit{Rüzgar ERİK}
+    \end{center}
+  \end{tcolorbox}
+}
+\makeatother
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+
+
+\title{Infinite Sequences and Series}
+\date{MATH 104}
+\maketitle
+\tableofcontents % This command generates the index page
+
+\newpage % Start a new page for the content
+
+
+
+\section{Sequences}
+
+A sequence is a list of numbers
+ 
+\begin{center}
+$a_{1},a_{2},a_{3},..........,a_{n},...$
+\end{center}
+in a given order. Each of $a_{1}, a_{2}, a_{3}$ represents a number. These are the terms of the sequence.
+
+
+\subsection{Convergence and Divergence}
+
+Sometimes the numbers in a sequence approach a single value as the index n increases.
+This happens in the sequence 
+
+\begin{center}
+$\{1, \frac{1}{2} , \frac{1}{3}, \frac{1}{4}, ..... , \frac{1}{n}, ...\}$
+\end{center}
+
+whose terms apporach 0 as n gets large, and in the sequence
+
+\begin{center}
+    $\{0, \frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \frac{4}{5}, ....., 1 - \frac{1}{n}, ...\}$
+\end{center}
+
+whose terms approach 1. On the other hand sequences like
+
+\begin{center}
+    $\{\sqrt{1}, \sqrt{2}, \sqrt{3}, \sqrt{4}, ....., \sqrt{n}, ...\}$
+\end{center}
+
+have terms that get larger than any number as n increases, and sequences like
+
+\begin{center}
+    $\{1, -1, 1, -1, 1, -1, ...., (-1)^{n+1}\}$
+\end{center}
+
+bounce back and forth between 1 and -1, never converging to  a single value. 
+
+\medskip
+
+\begin{definition}
+    The sequence \(\{a_{n}\}\) \textbf{converges} to the number L if for every positive number \(\varepsilon\) there corresponds an integer N such that
+    \begin{align}
+        \left\lvert a_n - L \right\rvert < \varepsilon \quad \text{whenever} \quad n > N
+    \end{align}
+
+    If no such number L exists, we say that $\{a_n\}$ \textbf{diverges}.
+    If $\{a_n\}$ converges to L, we write $\lim_{n \to \infty} a_n = L $, or simply $a_n \to L$
+    and call L the limit of the sequence.
+
+\end{definition}
+
+
+
+It says that if we go far enough in the sequence, by taking the index n to be larger than some value N, the difference between $a_n$ and the limit of the sequence becomes less than any preselected number $\varepsilon > 0$.
+
+\smallskip
+\newpage
+\example Show that \textbf{(a)}$lim_{n \to \infty}\frac{1}{n} = 0$ and \textbf{(b)}$\lim_{n \to \infty} k = k $
+
+(a) Let $\varepsilon > 0$ be given. We must show that there exists an integer N such that
+\begin{center}
+    $\left\lvert \frac{1}{n} - 0  \right\rvert < \varepsilon \quad \text{whenever} \quad n > N $
+
+\end{center}
+
+
+The inequality $\left\lvert \frac{1}{n} - 0\right\rvert < \varepsilon$ will hold if $\frac{1}{n} < \varepsilon$ or  $n > \frac{1}{\varepsilon}$.
+
+If N is any integer greater than $\frac{1}{\varepsilon}$ , the inequality will hold for all $ n > N $. This proves that $lim_{n \to \infty}\frac{1}{n}=0$.
+
+(b)
+Let $\varepsilon > 0$ be given. We must show how there exists an integer N such that 
+
+\begin{center}
+    $\left\lvert k - k \right\rvert < \varepsilon \quad \text{whenever} \quad n > N$
+\end{center}
+Since k-k=0, we can use any positive integer for N and the inequality will hold. 
+
+\smallskip
+
+\example Show that sequence $\{1, -1, 1, -1, 1, -1, ...., (-1)^{n+1}\}$ diverges
+
+
+
+\begin{center}
+    
+\begin{tikzpicture}
+    \begin{axis}[
+        axis lines = center,
+        xlabel = $n$,
+        ylabel = {$a_n$},
+        xmin = 0, xmax = 11, 
+        ymin = -1.5, ymax = 1.5, 
+    ]
+    \addplot [
+        domain=1:10, 
+        samples=10, 
+        color=red,
+        only marks,  
+        mark=*   
+    ]
+    {(-1)^x};
+
+    \addlegendentry{$(-1)^{n+1}$}
+    
+    \end{axis}
+    \end{tikzpicture}
+\end{center}
+
+\noindent Suppose the sequence converges to some number L. Then the numbers in the sequence eventually get arbitrarily close to the limit L. This can't happen if they keep oscillating between 1 and -1. We can see this by choosing $\varepsilon=\frac{1}{2}$ in the definition of the limit. 
+Then all terms of $a_n$ of the sequence with index $n$ larger than some $N$ must lie within $\varepsilon=\frac{1}{2}$ of $L$. Since the number $1$ appears repeatedly as every other term of the sequence, we must have that the number $1$ lies within the distance $\varepsilon=\frac{1}{2}$ of $L$. It follows that $|L - 1| < \frac{1}{2}$,
+or equivalantly, $\frac{1}{2}<L<\frac{3}{2}$. Likewise, the number -1 appears repeatedly in the sequence with arbitrarily high index. So we must also have that $|L - (-1)|<\frac{1}{2}$, or equivalantly, $\frac{-3}{2}<L<\frac{-1}{2}$. But the number L cannot lie in the both of the intervals because they have no overlap. Therefore no such limit L exists and so the sequence diverges.
+Note that the same argument works for any positive number $\varepsilon$ smaller than 1 not just $\frac{1}{2}$.
+
+
+\newpage
+The sequence $\{\sqrt{n}\}$ also diverges, but for a different reason. As n increases, its terms become larger than any fixed number. We describe the behavior of this sequence by writing
+\begin{center}
+    $\lim_{n \to \infty}\sqrt{n}=\infty$
+\end{center}
+In writing infinity as the limit of the sequence, we are not saying that the differences between the terms $a_n$ and $\infty$ become small as n increases. Nor we are asserting that there is some number infinity that the sequence approaches. We are merely using a notation that captures the idea that $a_n$ eventually gets and stays larger than any fixed number as n gets large. The terms of sequence might also decrease to negative infinity. 
+
+\smallskip
+
+\begin{definition}
+The sequence $a_n$ \textbf{diverges to infinity} if for every number M 
+there is an integer N such that for all n larger than N, $a_N>M$. If this condition holds we write
+\begin{center}
+    $
+    \lim_{n \to \infty} a_n = \infty \quad \text{or} \quad a_n \to \infty
+    $
+\end{center}
+Similarly, if for every number m there is an integer N such that for all n > N we have a $a_n < m$ we say $\{a_n\}$ diverges to negative infinity and write
+
+\begin{center}
+    $
+    \lim_{n \to \infty} a_n = - \infty \quad \text{or} \quad a_n \to -\infty
+    $
+\end{center}
+
+\end{definition}
+
+\subsection{Calculating Limits of Sequences}
+
+
+\begin{theorem}
+    
+    Let $\{a_n\}$ and $\{b_n\}$ be sequences of real numbers, and let A and B be real numbers. The following rules hold if $lim_{n \to \infty} a_n = A$ and $lim_{n \to \infty} b_n = B$. 
+
+    \begin{enumerate}
+        \item Sum Rule: \quad \quad $lim_{n \to \infty}(a_n +b_n) = A + B $
+        \item Difference Rule: \quad \quad $\lim_{n \to \infty}(a_n - b_n)= A-B$
+        \item Constant Multiple Rule: \quad \quad $\lim_{n \to \infty}(k \cdot b_n) = k.B$ (any number k)
+        \item Product Rule: \quad \quad $\lim_{n \to \infty}(a_n \cdot b_n)= A \cdot B$
+        \item Quotient Rule: \quad \quad $\lim_{n \to \infty} \frac{a_n}{b_n}=\frac{A}{B}$ if $ B \neq 0 $ 
+    \end{enumerate}
+
+\end{theorem}
+
+\smallskip
+One consequence of the theorem is that every nonzero multiple of a divergent sequence \textbf{diverges}. Suppose, to the contrary, that $ca_n$ converges for some number $c \neq 0$. Then, by taking k=1/c in the Constant Multiple Rule, we can see the sequence
+
+\begin{center}
+   $ \{\frac{1}{c} \cdot ca_n\} = \{a_n\}$
+\end{center}
+
+converges. Thus $\{ca_n\}$ cannot converge unless $\{a_n\}$ also converges. If $\{a_n\}$ does not converge, then $\{ca_n\}$ does not converge.
+
+\newpage
+
+\begin{theorem}
+    
+    Let $\{a_n\}$, $\{b_n\}$ and $\{c_n\}$ be sequences of real numbers. If $a_n \leq b_n \leq c_n$ holds for all n beyond some index N, and if $\lim_{n \to \infty}a_n = \lim_{n \to \infty}c_n = L$ then $\lim_{n \to \infty}b_n = L$ also.
+
+\end{theorem}
+
+
+\begin{example}
+    
+    \begin{enumerate}
+        \item $\frac{\cos n}{n} \to 0$ \quad because \quad $\frac{-1}{n} \leq \frac{\cos n }{n} \leq \frac{1}{n}$
+        \item $\frac{1}{2^n} \to 0$ \quad because \quad $0 \leq \frac{1}{2^n} \leq \frac{1}{n}$ 
+        \item $(-1)^n \frac{1}{n} \to 0$ \quad because $\frac{-1}{n} \leq (-1)^n \frac{1}{n} \leq \frac{1}{n}$
+        \item If $|a_n| \to 0$, then $a_n \to 0$ \quad because \quad $-|a_n| \leq a_n \leq |a_n|$ 
+    \end{enumerate}
+
+\end{example}
+\medskip
+
+\begin{theorem}
+Let $\{a_n\}$ be a sequence of numbers. If $a_n \to L$  and if f is a function that is continious at L and defined at all $\{a_n\}$, then $f(a_n) \to f(L)$
+\end{theorem}
+
+\medskip
+
+\example Show that $\sqrt{\frac{n+1}{n}}\to 1$
+\medskip
+
+We know that $\frac{n+1}{n} \to 1$. Taking $f(x)=\sqrt{x}$ and L=1 theorem gives $\sqrt{\frac{n+1}{N}\to \sqrt{1}}$
+
+\example The sequence $\{\frac{1}{n}\}$ converges to 0. By taking $a_n = \frac{1}{n}$, $f(x) = 2^x$ and $L=0$ we can see that $2^{\frac{1}{n}} = \frac{1}{n} \to f(L) = 2^0 = 1 $ 
+\medskip
+
+
+\begin{theorem}
+    Suppose that $f(x)$ is a function defined for all $x \geq n_0 $ and that $\{a_n\}$  is a sequence of real numbers such that $a_n = f(n)$ for $n \geq n_0$ Then
+    \begin{center}
+        $\lim_{n \to \infty}a_n = L$ whenever $\lim_{x \to \infty} f(x) = L$
+    \end{center}
+\end{theorem}
+\medskip
+\begin{example}
+    Show that $\lim_{n \to \infty} \frac{\ln x}{x}=0$
+    The function $\frac{\ln x}{x}$ is defined for all $x \geq 1$ and agrees with the given sequence at positive integers. Therefore $\lim_{n \to \infty}\frac{\ln x }{x}$ will equal $\lim_{x \to \infty} \frac{\ln x}{x} $ if the latter exists. A single application of \lopital shows that
+    \begin{center}
+        $\lim_{x \to \infty}\frac{\ln x}{x} = \lim_{x \to \infty}\frac{\frac{1}{x}}{1} = \frac{0}{1} = 0$
+    \end{center}
+    We conclude that $\lim_{n \to \infty}\frac{\ln n}{n} = 0 $
+\end{example}
+\newpage
+
+\begin{example}
+    Does the sequence whose nth term is
+    \begin{center}
+        $a_n = (\frac{n+1}{n-1})^n$
+    \end{center}
+    converge? If so, find $\lim_{n \to \infty}a_n$
+    The limit leads to the indeterminate form $1^\infty$. We can apply \lopital if we change the form to $\infty \cdot 0$ by taking the natural logarithm of $a_n$.
+
+    \begin{center}
+        $
+        \ln a_n = \ln (\frac{n+1}{n-1})^n = n \ln(\frac{n+1}{n-1})
+        $
+    \end{center}
+    Then
+    \begin{center}
+        \(
+        = \lim_{{n \to \infty}} \ln a_n = \lim_{{n \to \infty}} n \ln\left(\frac{{n+1}}{{n-1}}\right) \quad \text{\textcolor{blue}{(\(\infty \cdot 0\) form)}}
+        \)
+    \end{center}
+    \begin{center}
+    \(
+        = \lim_{n \to \infty} \frac{\ln \left( \frac{n+1}{n-1}\right)}{1/n} \quad \text{\textcolor{blue}{\(\frac{0}{0}\) form}}
+    \)
+    \end{center}
+
+    \begin{center}
+        \(
+        = \lim_{n \to \infty}\frac{-2/\left( n^2-1 \right)}{-1/n^2} \quad \text{\textcolor{blue}{\lopital}}
+        \)
+    \end{center}
+    \begin{center}
+        \(
+     = \lim_{n \to \infty} \frac{2n^2}{n^2-1} =2.
+        \)
+    \end{center}
+Since \(\ln a_n \to 2\) and \(f(x) = e^x\) is continious,
+
+\begin{center}
+    \(
+    a_n = e^{ln a_n} \to e^2   
+    \)
+\end{center}
+The sequence \(\{a_n\}\) \textbf{converges} to \(e^2\).
+
+\end{example}
+
+\begin{theorem}
+    \begin{multicols}{2}
+
+    \begin{enumerate}
+        
+        \item \( \lim_{n \to \infty} \frac{\ln n}{n} = 0 \)
+        \item \(\lim_{n \to \infty}x^{1/n} = 1 \quad (x > 0)\)
+        \item \(\lim_{n \to \infty}  \sqrt[n]{n} = 1\)
+        \item \(\lim_{n \to \infty} x^n = 0 \quad (|x| < 1 )\)
+        \item \( \lim_{n \to \infty} \left(1+ \frac{x}{n}\right)^n = e^x \) (any x)
+        \item \(\lim_{n \to \infty} \frac{x^n}{n!} = 0\) (any x)         
+    \end{enumerate}
+\end{multicols}
+\end{theorem}
+
+\begin{example}
+
+    \begin{multicols}{2}
+
+        \begin{enumerate}[label=\alph*)]
+            \item  \(\frac{\ln n^2}{n} = \frac{2 \ln n}{n} = 2 \cdot 0 = 0\)
+            \item \(\sqrt[n]{n^2} = n^{2/n} = 1\)
+            \item \(\sqrt[n]{3n} = 3^{1/n}(n^{1/n} \to 1 \cdot 1 = 1)\)
+            \item \(\left(-\frac{1}{2}\right)^n \to 0\)
+            \item \(\left(\frac{n-2}{n}\right)^n=\left(1+\frac{-2}{n}\right)^n \to e^{-2}\)
+            \item \(\frac{100^n}{n!} \to 0\)
+        \end{enumerate}
+        
+        \end{multicols}
+        
+
+
+\end{example}
+
+
+\newpage
+
+\subsection{Recursive Definitions}
+
+So far we have calculated $a_n$ directly from the value of n. But sequences are often defined recursively by giving
+\begin{enumerate}
+    \item The value(s) of the initial term or terms, and
+    \item A rule, called a \textbf{recursion formula}, for calculating any later term from terms that precede it.
+\end{enumerate}
+
+
+\begin{example}
+    
+    \begin{enumerate}[label=\textbf{\alph*)}]
+        \item The statements $a_1 = 1$ and $a_n = a_{n-1} +1 \text{ for } n > 1$ define the sequence $1,2,3,...., n$ of positive integers.
+        \item The statements $a_1=1$ and $a_n= a_{n-1}\cdot n$ for $n > 1$define the sequence $1, 2, 6, 24, ..., n!$ of factorials.
+        \item The statements $a_1=1$and $a_2=1$ $a_{n+1} = a_n + a_{n-1}$ for $n > 2$ define the sequence $ 1, 1, 2, 3, 5, ...$ of Fibonacci Numbers.
+        \item As we can see by applying Newton's method, the statenets $x_0=1$ and $x_{n+1} = x_n - \left[\left(\sin x_n - x_{n}^2\right)/\left(\cos x_n -2x_n\right)\right]$ for $n>0$ define a sequence that, when converges, gives a solution to the equation $\sin x - x^2 = 0$
+    \end{enumerate}
+
+\end{example}
+
+
+\begin{definition}
+    A sequence $a_n$ is \textbf{bounded from above } if there exists a number M such that $a_n \leq M$for all n. The number M is an \textbf{upper bound} for $\{a_n\}$. If M is an upper bound for \(\{a_n\}\) but no number less then M is an upper bound for \(\{a_n\}\), then M is the \textbf{least upper bound} for \(\{a_n\}\).
+
+    A sequence $a_n$ is \textbf{bounded from below} is there exist a number m suchn that $ a_n \geq m $ for  all n. The number m is a \textbf{lower bound} for $\{a_n\}$. If m is a lower bound for \(\{a_n\}\) but no number greater than m is a lower bound for \(\{a_n\}\), then m is the \textbf{greatest lower bound} for \anc. 
+
+    If \anc is bounded from above and below, then \anc is \textbf{bounded}. If \anc is not bounded, then we say that \anc is an unbounded sequence. 
+
+\end{definition}
+
+\begin{center}
+    \textcolor{red}{\textbf{!Convergent Sequences Are Bounded!}}
+\end{center}
+
+
+\begin{example}
+    \begin{enumerate}[label=\textbf{\alph*)}]
+        \item The sequence $1, 2, 3, .... n, ...$ has no upper bound because it eventually  surpasses every number M. However, it is bounded below by every real number less than or equal to 1. The number m=1 is the greatest lower bound of the sequence.
+        \item The sequence $\frac{1}{2}, \frac{2}{3}, \frac{3}{4}, .... , \frac{n}{n+1}, ...$ is bounded above by every real number greater than or equal to 1. The upper bound M = 1 is the least upper bound. The sequence is also bounded below by every number less than or equal to $\frac{1}{2}$, which is its greatest lower bound.  
+    \end{enumerate}
+\end{example}
+
+\newpage
+
+\begin{definition}
+    
+    A sequence \anc is \textbf{nondecreasing} if \( a_n \leq a_{n+1}\) for all n. That is \( a_1 \leq a_2 \leq a_3 \leq \dots \)
+    The sequence is \textbf{nonincreasing} if \(a_n \geq a_{n+1}\) for all n.
+    The sequence is \textbf{monotonic} if it is either nondecreasing or nonincreasing.
+
+\end{definition}
+
+\begin{example}
+    \begin{enumerate}[label=\textbf{\alph*)}]
+        \item The sequence \(1, 2, 3, \dots, n, \dots\) is nondecreasing.
+        \item The sequence \(\frac{1}{2}, \frac{2}{3}, \frac{3}{4}, \dots, \frac{n}{n+1}, \dots\) is nondecreasing.
+        \item The sequence \(1, \frac{1}{2}, \frac{1}{4}, \frac{1}{8}, \dots, \frac{1}{2^n}, \dots\) is nonincreasing.
+        \item The constant sequence \(3, ,3 ,3, \dots, 3, \dots \) is both nondecreasing and nonincreasing.,
+        \item The sequence \(1, -1, 1, -1, 1, -1, 1, -1\) \textbf{\textcolor{red}{NON MONOTONIC}}.
+    \end{enumerate}
+\end{example}
+
+
+A nondecreasing sequence that is bounded from above always has a least upper bound. Likewise, a nonincreasing sequence bounded from below always has a greatest lower bound. These results are based on the \textit{completeness property} of the real numbers.
+
+
+\begin{theorem}
+    If a sequence \anc is both bounded and monotonic, then the sequence converges.
+\end{theorem}
+
+
+\section{Infinite Series}
+
+An infinite series is the sum of an infinite sequence of numbers
+\begin{center}
+    \(a_1 + a_2 + a_3 + \dots + a_n + \dots\)
+\end{center}
+
+The sum of the first n terms is an ordinary finite sum and can be calculated by normal addition It is called the \textit{nth partial sum.}
+As n gets larger, we expect the partial sums to get closer and closer to a limiting value in the same sense that the tems of sequence approach a limit.
+
+\begin{definition}
+
+Given a sequence of numbers \anc, an expression of the form
+\begin{center}
+    \(a_1 + a_2 + a_3 + \dots + a_n + \dots\)
+\end{center}
+is an \textbf{infinite series}. The number \an is the \textbf{nth term} of ther series. The sequence $s_n$ defined by
+\begin{align*}
+    s_1 &= a_1 \\
+    s_2 &= a_1 + a_2 \\
+    &\vdots \\
+    s_n &= a_1 + a_2 + \dots + a_n = \sum_{k=1}^{n}a_k
+    &\vdots \\
+\end{align*}
+\end{definition}
+
+\subsection{Geometric Series}
+
+\textbf{Geometric series} are series of the form
+
+
+\begin{center}
+    \(a + ar + ar^2 + \dots + ar^{n-1} = \sum\limits_{n=1}^{\infty}ar^{n-1}\)
+\end{center}
+
+in which a and r are fixed real numbers and $a\neq0$. The series can also be written as $\sum_{n=0}^{\infty}ar^{n}$ The \textbf{ratio} r can be positive, as in
+
+\begin{center}
+    \(1 + \frac{1}{2} + \frac{1}{4} + \dots + \left(\frac{1}{2}\right)^{n-1} + \dots\) \textcolor{blue}{ r=1/2, a=1}
+\end{center}
+
+or negative, as in
+
+\begin{center}
+    \(
+    1 - \frac{1}{3} + \frac{1}{9} - \dots + \left(\frac{-1}{3}\right)^{n-1} \) \textcolor{blue}{r=-1/3, a=1}
+
+\end{center}
+
+If r=1, the nth partial sum of the geometric series is
+\begin{center}
+    \(s_n = a+ a(1)+ a(1)^2 + \dots + a(1)^{n-1} = n \cdot a \)
+\end{center}
+and the series diverges becasue $\lim_{n \to \infty}s_n=\pm \infty$ depending on the sign of a. If r = -1 the series diverges because the nth partial sums alternate between a and 0 and never approach a single limit if $|r| \neq 1$, we can determine the convergence or divergence of the series in the following way:
+
+\begin{align*}
+    s_n &= a + ar + ar^2 + \dots + ar^{n-1} \quad \text{\textcolor{blue}{write the nth partial sum.}} \\
+    rs_n &= ar+ ar^2 + ar^3 + \dots + ar^{n-1} +  ar^{n} \quad \text{\textcolor{blue}{multiply \(s_n \) by \(r\)}} \\
+    s_n - rs_n &= a - ar^n \quad \text{\textcolor{blue}{Subtract  \(rs_n\) from \(s_n\). Most of the terms on the right cancel.}} \\
+    s_n(1-r) &= a(1-r^n) \quad \text{\textcolor{blue}{Factor.}} \\
+    s_n &= \frac{a\left(1-r^n\right)}{1-r} \quad \text{\textcolor{blue}{We can solve for \(s_n\) if \(r \neq 1\)}} \\
+\end{align*}
+
+If $ |r| < 1$, then \(r^n \to 0\) as \(n \to  \infty \) so \(s_n \to \frac{a}{\left(1-r\right)}\). On the other hand, if \(|r|>1\), then \(|r_n| \to \infty\) and the series \textbf{diverges}.
+
+
+\begin{note}
+If \(|r|<1\), the geometric series \(a + ar+ ar^2+ \dots + ar^{n-1} + \dots\) converges to \(a/\left(1-r\right)\)
+\begin{center}
+    \[
+        \sum_{n=1}^{\infty} ar^{n-1} = \frac{a}{1-r}, \quad |r|<1.
+    \]
+\end{center}
+If \(|r|>1\) the series diverges.
+
+\end{note}
+
+\textcolor{red}{\textbf{The formula \(a/(1-r)\) for the sum of geometric series applies only when the summation index begins with n=1 in the expression \(\sum_{n=1}^{\infty}ar^{n-1}\) or with the index n=0 if we write the series as \(\sum_{n=0}^{\infty}ar^n\)}}
+
+\newpage
+
+\begin{example}
+    The geometric series with a=1/9 and r=1/3 is 
+    \begin{center}
+        \[
+        \sum_{n=1}^{\infty}\frac{1}{9}\left(\frac{1}{3}\right)^{n-1} = \frac{1/9}{1-(1/3)} = \frac{1}{6}    
+        \]
+    \end{center}
+\end{example}
+
+\begin{example}
+    The series 
+    \[\sum_{n=1}^{\infty} \frac{(-1)^n 5}{4^n} = 5 - \frac{5}{4}+ \frac{5}{16} - \frac{5}{64} \dots \]
+    is a geometric series with a=5 and r = -1/4. It converges to
+    \[\frac{a}{1-r} = \frac{5}{1 + (1/4)} = 4\]
+
+\end{example}
+
+
+\begin{example}
+    
+    Find the sum of the "telescoping" series \(\sum_{n=1}^{\infty}\frac{1}{n(n+1)}\)
+    The key observation is partial fration decomposition.
+    \[\frac{1}{n(n+1)} = \frac{1}{n} - \frac{1}{n+1}\]
+    Cancelling adjacent terms of the opposite sign collapses the sum to 
+    \[s_k = 1-\frac{1}{k+1}\]
+    we now see that $s_k \to 1$ as $k \to \infty$ The series converges and its sum is 1
+\end{example}
+
+\subsection{\textcolor{blue}{The nth Term Test for a Divergent Series}}
+
+One reasın tgat a series may fail to converge is that its terms don't become small. 
+
+\begin{example}
+    The series
+    \[\sum_{n=1}^{\infty}\frac{n+1}{n}\]
+    diverges because the partial sums evantually outgrow every preassigned number. Each term is greater than 1, so the sum of n terms is greater than n.
+
+    We now show that \(\lim_{n \to \infty a_n} \) must equal zero if the series \(\sum_{n=1}^{\infty}a_n\) converges. 
+    
+\end{example}
+
+
+\begin{theorem}
+    If \(\sum_{n=1}^{\infty} a_n\) converges, then \(a_n \to 0\).
+\end{theorem}
+
+
+\begin{note}
+    \textcolor{blue}{The nth-Term Test for Divergence}
+    \( \sum_{n=1}^{\infty} a_n\) diverges if \(\lim_{n \to \infty} a_n\) fails to exist or different from zero.
+\end{note}
+
+\newpage
+
+\begin{example}
+\begin{enumerate}[label=\alph*)]
+        \item \(\sum_{n=1}^{\infty}n^2\) diverges beccause \(n^2 \to \infty\)
+        \item \(\infsum \frac{n+1}{n}\) diverges because \(\frac{n+1}{n} \to 1\)
+        \item \(\infsum \left(-1\right)^{n+1}\) diverges because \(\lim_{n \to \infty}(-1)^{n+1}\) does not exist.
+        \item \(\infsum \frac{-n}{2n+5}\) diverges because  \(\lim_{n \to \infty}\frac{-n}{2n+5} = -\frac{1}{2} \neq 0\)
+    \end{enumerate}
+\end{example}
+
+
+\begin{theorem}
+
+If \(\sum a_n = A\) and \(\sum b_n = B\) are convergent series then
+
+\begin{enumerate}
+    \item Sum rule: \(\sum (a_n + b_n) = \sum a_n + \sum b_n = A+B\)
+    \item Difference Rule: \(\sum (a_n - b_n) = \sum a_n - \sum b_n = A-B\)
+    \item Constant Multiple Rule: \(\sum ka_n = k\sum a_n = kA\)
+\end{enumerate}
+
+\end{theorem}
+
+
+\begin{note}
+    \begin{enumerate}
+        \item Every \textbf{nonzero} constant multiple of a divergent series diverges.
+        \item If \(\sum a_n\) converges and \(\sum b_n\) diverges then \(\sum (a_n + b_n) \) and \(\sum (a_n - b_n) \) both diverge    
+    \end{enumerate}
+\end{note}
+
+\textcolor{red}{\textbf{CAUTION}} Remember that \(\sum (a_n + b_n) \) can converge even if both \(\sum a_n\) and \(\sum b_n\) diverge. For example, \(\sum a_n = 1 + 1 + 1 + \dots \) and \(\sum b_n = (-1) + (-1) + (-1) + \dots\) diverge whereas \(\sum (a_n + b_n) \) converges to 0.
+
+\subsection*{Reindexing}
+As long as we preserve the order of its terms, we can reindex any series without altering its convergence. To raise the starting value of the index h units, replace the n in the formula for \(a_n\) by  \(n-h\)
+To lover the starting value of the index h units, teplace the n in the formula for \(a_n\) by \(n+h\)
+
+
+\subsection{The Integral Test}
+
+\subsubsection*{Nondecreasing Partial Sums}
+
+Suppose that \(\infsum a_n\) is an infinite series with \(a_N \geq 0\) for all n. Then each partial sum is greater than or equal to its predecessor because \(s_{n+1} = s_n + a_n\) so
+\[s_1 \leq s_2 \leq s_3 \leq \dots \leq s_n \leq s_{n+1}\]
+Since the partial sums form a nondecreasing sequence, the Monotonic sequence theorem gives the following result.
+
+\begin{corollary}
+    A series \( \infsum a_n \) of nonnegative terms converges if and only if its partial sums are bounded from above.
+\end{corollary}
+
+\newpage
+
+\subsubsection*{The Integral Test}
+
+We now introduce the integral Test with a series that is relatedd to the harmonic series but whose nth term is $1/n^2$ instead of 1/n.
+
+\begin{theorem}
+    Let \an be a sequence of positive terms. Suppose \(a_n = f(n)\) where f is a continious, positive, decreasing function of x for \(x \geq N\). Then the series \(\sum_{n=N}^{\infty}a_n\) and the integral \(\int_{N}^{\infty}\) both converge or both diverge.
+\end{theorem}
+
+
+\begin{note}
+
+\textcolor{blue}{\textbf{Bounds For The Remainder In The Integral}}
+
+Suppose \anc is a sequence of positive terms with \(a_k = f(k)\), where f is a continious positive decreasing function of x for all $x \geq n$ and that \(\sum a_n\) converges to S. Then the remainder \(R_n = S - s_n\)
+\[\int_{n+1}^{\infty}f(x)dx \leq R_n \leq \int_{n}^{\infty}f(x)dx\]
+
+If we add the partial sum \(s_n\) to each side of inequalities we get,
+
+\[s_n + \int_{n+1}^{\infty}f(x)dx \leq S \leq s_n + \int_{n}^{\infty}f(x)dx\]
+\end{note}
+
+\begin{theorem}
+\textcolor{blue}{Direct Comparison Test} \\
+Let \(\sum a_n\) and \(\sum b_n\) be two series with \(0 \leq a_n \leq b_n\)
+\begin{enumerate}
+    \item If \(\sum b_n\) converges then also \(\sum a_n\)
+    \item If \(\sum a_n\) diverges then \(\sum b_n\) also diverges.
+\end{enumerate}
+\end{theorem}
+
+\subsubsection*{The Limit Comparison Test}
+
+\begin{theorem}
+    Suppıse that \(a_n > 0 \) and \(b > 0\) for all \(n \geq N\)
+\begin{enumerate}
+    \item If \(\lim_{n \to \infty}\frac{a_n}{b_n}\) and  \(c>0\) then \(\sum a_n\) and \(\sum b_n\) both converge or both diverge.
+    \item If \(\lim_{n \to \infty}\frac{a_n}{b_n} = 0\)  and \(\sum b_n\) converges then \(\sum a_n\) converges.
+    \item If \(\lim_{n \to \infty}\frac{a_n}{b_n} = \infty\) and \(\sum b_n \) diverges then \(\sum a_n\) diverges.
+    
+\end{enumerate}
+\end{theorem}
+\newpage
+\begin{definition}
+    A series \(\sum a_n\) \textbf{converges absolutely} or its absolutely convergent if the corresponding series of absolute values \(\sum |a_n|\) converges.
+
+\end{definition}
+\begin{theorem}
+    \textcolor{blue}{\textbf{The Absolute Convergence Test}}
+    If \(\infsum |a_n|\) converges, then \(\infsum a_n\) converges.
+\end{theorem}
+
+
+\subsubsection*{The Ratio Test}
+
+\begin{theorem}
+    Let \(\sum a_n\) be any series and suppose that 
+    \[\lim_{n \to \infty}|\frac{a_{n+1}}{a_n} = \rho\]
+    Then, the series converges absolutely if \(p < 1\) the series diverges if \(p>1\) or p is infinite the test is inconclusive if p=1
+\end{theorem}
+\subsubsection*{The Root Test}
+
+\begin{theorem}
+    Let \(\sum a_n\) be any series and suppose that
+    \[\lim_{n \to \infty}\sqrt[n]{|a_n|} = \rho\]
+    \begin{enumerate}[\alph*]
+        \item The series converges if \(\rho < 1\) 
+        \item The series diverges if \(\rho >1 \)
+        \item \textcolor{red}{\textbf{The Test Is inconclusive If \(\rho = 1 \)}}
+    \end{enumerate}
+\end{theorem}
+
+\subsection*{Alternating Series and Conditional Convergence}
+
+
+
+
+\begin{theorem}
+    \textcolor{blue}{\textbf{The Alternating Series Test}}
+    The series
+    \[\sum_{n=1}^{\infty}(-1)^{n+1}u_n\]
+    converges if the following conditions are satisfied:
+    \begin{enumerate}
+        \item The \(u_n\)'s are all positive.
+        \item The \(u_n\)'s are eventually nondecreasing: \(u_n \geq u_{n+1}\) for all \(n \geq N\).
+        \item The limit of \( u_n \) as \( n \) approaches infinity is \( 0 \): \( \lim_{n \to \infty} u_n = 0 \).
+    \end{enumerate}
+
+\end{theorem}
+
+
+\
+
+
+
+
+
+\end{document}

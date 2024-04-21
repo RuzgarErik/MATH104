@@ -1,0 +1,27 @@
+
+\begin{tikzpicture}
+    \begin{axis}[
+    axis lines=center,axis on top,
+    colormap name=whitered,
+    width=15cm,
+    view={335}{50},
+    enlargelimits=true,
+    domain=0:20*pi, % Extend domain to cover multiple cycles
+    y domain=-1:1,
+    samples=400, 
+    xlabel=$x$,
+    ylabel=$y$,
+    zlabel={$z$},
+    zlabel style={rotate=-90}, % Rotate z-label for better visibility
+    every axis plot/.append style={ultra thick},
+    enlarge x limits={0.1}, % Adjusted enlarge limits
+    enlarge y limits={0.1}, % Adjusted enlarge limits
+    enlarge z limits={0.5}% Adjusted enlarge limits % Increase plot thickness
+    ]
+        \addplot3+[samples y=0]
+            ({sin(deg(x))},
+             {cos(deg(x))},
+             {0.3*x});
+    \end{axis}
+\end{tikzpicture}
+

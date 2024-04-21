@@ -1,0 +1,44 @@
+# Ignore LaTeX build files
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fdb_latexmk
+*.fls
+*.dvi
+*.lof
+*.lot
+
+# Ignore LaTeX compiler output
+*.gz
+*.ps
+*.brf
+
+# Ignore LaTeX editor temporary files
+*.backup
+*.bak
+*.swp
+
+# Ignore LaTeX auto-generated files
+._*
+*.d
+*.pyg
+*.synctex\(busy\)
+
+# Ignore LaTeX intermediate files
+*.idv
+*.lg
+*.4ct
+*.4tc
+*.xref
+*.tmp
+*.tmp.*
+*.tms
+*.tms.*
+
+# Ignore LaTeX generated directories
+_auto
+minted
