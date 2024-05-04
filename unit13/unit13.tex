@@ -1019,4 +1019,138 @@ The other equations are obtained by replacing p by q, . . . , t, one at a time. 
 
 \[\left(\frac{\partial w}{\partial x}, \frac{\partial w}{\partial y}, \dots, \frac{\partial w}{\partial \mathbf{v}}\right) \quad \text{and} \quad \left(\frac{\partial x}{\partial p}, \frac{\partial y}{\partial p}, \dots, \frac{\partial \mathbf{v}}{\partial p}\right)\]
 
+
+\section{Directional Derivatives and Gradient Vectors}
+
+\begin{definition}
+    The \textbf{derivative of f at \(P_0(x_0,y_0)\) in the direction of the unit vector \(u = u_1i + u_2j\)} is the numbers
+    \[\left(\diff{f}{s}\right)_{\mathbf{u}, P_0} = \lim_{s \to 0}\frac{f(x_0+ su_1, y_0 + su_2) - f(x_0,y_0)}{s}\]
+    provided the limit exists.
+\end{definition}
+
+The \textbf{directional derivative} defined by the equation is also denoted by
+\[D_uf(P_0) \quad \text{or} \quad D_uf|_{P_0} \]
+
+\begin{example}
+    Using the definition, find the derivative of
+    \[f(x,y)= x^2 + y^2\]
+    at \(P_0(1,2)\) in the direction of the unit vector \(\mathbf{u} = \frac{1}{\sqrt{2}}i + \frac{1}{\sqrt{2}}j \)
+\end{example}
+
+\begin{solution}
+    \[\begin{aligned}
+        &\begin{aligned}
+        \left(\frac{d f}{d s}\right)_{\mathbf{u}, P_0} & =\lim _{s \rightarrow 0} \frac{f\left(x_0+s u_1, y_0+s u_2\right)-f\left(x_0, y_0\right)}{s} \\
+        & =\lim _{s \rightarrow 0} \frac{f\left(1+s \cdot \frac{1}{\sqrt{2}}, 2+s \cdot \frac{1}{\sqrt{2}}\right)-f(1,2)}{s} \\
+        & =\lim _{s \rightarrow 0} \frac{\left(1+\frac{s}{\sqrt{2}}\right)^2+\left(1+\frac{s}{\sqrt{2}}\right)\left(2+\frac{s}{\sqrt{2}}\right)-\left(1^2+1 \cdot 2\right)}{s} \\
+        & =\lim _{s \rightarrow 0} \frac{\left(1+\frac{2 s}{\sqrt{2}}+\frac{s^2}{2}\right)+\left(2+\frac{3 s}{\sqrt{2}}+\frac{s^2}{2}\right)-3}{s} \\
+        & =\lim _{s \rightarrow 0} \frac{\frac{5s}{\sqrt{2} + s^2}}{\sqrt{2}+s^2}=\lim _{s \rightarrow 0}\left(\frac{5}{\sqrt{2}}+s\right)=\frac{5}{\sqrt{2}} .
+        \end{aligned}\\
+        \end{aligned}
+        \]
+    The rate of change in the direction of u is \(\frac{5}{\sqrt{2}}\)
+\end{solution}
+
+\subsection{Calculation and Gradients}
+
+We now develop an efficient formula to calculate the directional derivative for a differen-
+tiable function ƒ. We begin with the line
+
+\[x = x_0 + su_1 \quad y = y_0 + su_2\]
+
+through \(P(x_0,y_0)\) parametrized with the arc lenght parrameter s increasing in the direction of the unit vector \(u = u_1 \hat{i} + u_2 \hat{j}\) Then by the chain rule we find
+
+\[\begin{aligned}
+    \left(\frac{d f}{d s}\right)_{\mathbf{u}, P_0} & =\left.\frac{\partial f}{\partial x}\right|_{P_0} \frac{d x}{d s}+\left.\frac{\partial f}{\partial y}\right|_{P_0} \frac{d y}{d s} \quad \text { Chain Rule for differentiable } f \\
+    & =\left.\frac{\partial f}{\partial x}\right|_{P_0} u_1+\left.\frac{\partial f}{\partial y}\right|_{P_0} u_2 \quad \begin{array}{l}
+    \text { From Eqs. (2), } d x / d s=u_1 \\
+    \text { and } d y / d s=u_2
+    \end{array} \\
+    & =\underbrace{\left[\left.\frac{\partial f}{\partial x}\right|_{P_0} \mathbf{i}+\left.\frac{\partial f}{\partial y}\right|_{P_0} \mathbf{j}\right.}_{\text {Gradient of } f \text { at } P_0} \cdot \underbrace{\left[u_1 \mathbf{i}+u_2 \mathbf{j}\right]}_{\text {Direction } \mathbf{u}} .
+    \end{aligned}\]
+
+
+
+
+\begin{definition}
+    The \textbf{gradient vector} or \textbf{gradient} of \fxy is the vector
+    \[\nabla f = \diffp{f}{x} \hat{i} + \diffp{f}{y} \hat{j} \]
+    The value of the gradient vector obtained by evaluating the partial derivatives at a point \(P_0 f(x_0,y_0z)\)
+    
+\end{definition}
+
+
+\begin{definition}
+    If \fxy is differentiable in an open region containing \(P_0(x_0,y_0)\), then
+    \[\left(\diff{f}{s}\right)_{\mathbf{u},P_0} = \nabla \left. \right|_{P_0 \cdot \mathbf{u}}\]
+
+    the dot product of the gradient \(\nabla f\) at \(P_0\) with the vector \textbf{u}. In brief \(D_u f = \nabla f \cdot \mathbf{u}\)
+
+\end{definition}
+
+
+\subsection{Gradients and tangents to level Curves}
+
+If a differentiable function \fxy has a constant value c along a smooth curve \(\mathbf{r} = g(t)\mathbf{i} + h(t) \mathbf{j}\) then \(f(g(t),h(t)) = c\). Differentiating both sides of this equation with respect to t leads to the equations.
+
+
+\begin{align*}
+    \diff{}{t}f(g(t),h(t)) &= \diff{}{t}(c) \\[1\baselineskip]
+    \diffp{f}{x} \diff{g}{t} + \diffp{f}{y} \diff{h}{t} &= 0 \\[1\baselineskip]
+    \underbrace{\left(\diffp{f}{x}\mathbf{i} + \diffp{f}{y}\mathbf{j}\right)}_{\nabla f} \cdot \underbrace{\left(\diff{g}{t}\textbf{i} + \diff{h}{t}\mathbf{j}\right)}_{\diff{r}{t}} &= 0\\[1\baselineskip]
+\end{align*}
+
+\begin{mynote}
+    At every point \((x_0,y_0)\) in the domain of a differentiable function \fxy, the gradient of f is normal to the curve through \((x_0,y_0)\)
+\end{mynote}
+
+
+
+
+\begin{ruleBox}{Tangent line to a level Curve}
+    \[f_x(x_0,y_0)(x-x_0) + f_y(x_0,y_0)(y-y_0) = 0\]
+\end{ruleBox}
+
+
+
+\begin{ruleBox}{Algebra Rules for Gradients}
+
+    \begin{enumerate}
+        \item Sum Rule: \quad \(\nabla (f + g) = \nabla f + \nabla g\)
+        \item Difference Rule \quad \(\nabla (f - g) = \nabla f - \nabla g\)
+        \item Constant Multiple Rule: \quad \(\nabla (kf) = k \nabla f\)
+        \item Product Rule: \quad \(\nabla(fg) = f \nabla g  + g \nabla f\)
+        \item  Quotient Rule: \quad \(\nabla \left( \frac{f}{g}\right) = \frac{g \nabla f - f \nabla g}{g^2}\)
+    \end{enumerate}
+
+    
+\end{ruleBox}
+
+
+\subsection{The Chain Rule }
+
+\begin{ruleBox}{The Derivative Along A Path}
+
+    \[\diff{}{t}f(r(t))= \nabla f(r(t)) r'(t)\]
+    
+\end{ruleBox}
+
+
+\section{Tangent Planes and Differentials}
+
+\begin{definition}
+    The \textbf{tangent plane} to the level surface \(f(x,y,z)=C\) of a differentiable function f at a point \(P_0\) where the gradient is not zero is the plane through \(P_0\) normal to \(\nabla f |_{P_0}\). \\
+    The \textbf{normal line} of the surface at \(P_0\) is the line through \(P_0\) parallel to \(\nabla f |_{P_0}\)
+
+\end{definition}
+
+
+\begin{mynote}
+    \textcolor{blue}{\textbf{Tangent Plane to \(f(x,y,z) = c\) at \(P_0(x_0,y_0,z_0)\)}}
+    \[f_x(P_0)(x-x_0) + f_y(P_0)(y-y_0) + f_z(P_0)(z-z_0)=\]
+    \textcolor{blue}{\textbf{Normal Line to \(f(x,y,z) = c\) at \(P_0(x_0,y_0,z_0)\)}}
+    \[x = x_0 + f_x(P_0)t, \quad y = y_0 + f_y(P_0)t, \quad z = z_0 + f_z(P_0)t \]
+
+\end{mynote}
+
 \end{document}
