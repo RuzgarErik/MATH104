@@ -1,7 +1,6 @@
 \documentclass[12pt,a4paper,draft]{article}
 %setting margins
 \usepackage[margin=0.75in]{geometry}
-\usepackage{xcolor}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -127,6 +126,17 @@
 
 \usepackage{parskip}
 \setlength{\parindent}{0pt} % Disable paragraph indentation
+
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
@@ -1152,5 +1162,301 @@ If a differentiable function \fxy has a constant value c along a smooth curve \(
     \[x = x_0 + f_x(P_0)t, \quad y = y_0 + f_y(P_0)t, \quad z = z_0 + f_z(P_0)t \]
 
 \end{mynote}
+
+
+
+\begin{mynote}
+    \textcolor{blue}{\textbf{Plane Tangent to a Surface \(z = f(x,y) at (x_0,y_0,f(x_0,y_0))\)}}
+    \[f_x(P_0)(x-x_0) + f_y(P_0)(y-y_0) = (z-z_0)\]
+
+\end{mynote}
+
+\subsection{Estimating Change in f in a Direction u }
+
+\begin{mynote}
+    To estimate the change in the value of a differentiable function f when we move a small distance ds from a point \(P_0\) in a particular direction \textbf{u}, use the formula
+
+    \[\mathrm{d}f = (\nabla f|_{P_0} \cdot \mathbf{u}) ds\]
+
+\end{mynote}
+
+
+\subsection{How to Linearize a Function of Two Variables }
+
+\begin{definition}
+    The \textbf{linearization of a function \fxy at a point \((x_0,y_0)\)} where f is differentiable is the function
+    \[L(x,y) = f(x_0,y_0) + f_x(x_0,y_0)(x-x_0) + f_y(x_0,y_0)(y-y_0).\]
+    The approximation
+    \[f(x,y) \approx L(x,y)\]
+\end{definition}
+
+\begin{definition}
+    If we move from \((x_0,y_0)\) to a point \((x_0 + dx, y_0+ dy)\) nearby the resulting change 
+    \[df = f_x(x_0,y_0)dx + f_y(x_0,y_0) dy\]
+    in the linearization of f is called the \textbf{total differential of f}
+\end{definition}
+
+\subsection{Functions of More Than Two Variables}
+
+The linearization of \(f(x,y,z)\) at a point \(P_0(x_0,y_0,z_0)\) is 
+\[L(x,y,z) = f(P_0) + f_x(P_0)(x-x_0) + f_y(P_0)(y-y_0) + f_z(P_0)(z-z_0)\]
+
+
+\section{Extreme Values and Saddle Points}
+
+
+
+\begin{figure}[h]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+        xlabel=$x$,
+        ylabel=$y$,
+        zlabel=$z$,
+        domain=-2:2,
+        y domain=-2:2,
+        colormap/hot,
+        samples=50,
+        axis lines=center,
+        view={45}{45}
+    ]
+    \addplot3 [surf] {cos(deg(x))*cos(deg(y))*exp(-sqrt(x^2 + y^2))};
+
+    \end{axis}
+    \end{tikzpicture}
+    \caption{Surface plot of $f(x,y) = \cos(x)\cos(y)e^{-\sqrt{x^2 + y^2}}$ with additional points}
+\end{figure}
+
+
+\subsection{Derivative Test for Local Extrema}
+
+\begin{definition}
+    Let \fxy be defined on region R containing the point \((a,b)\). Then
+    \begin{enumerate}
+        \item \(f(a,b)\) is a \textbf{local maximum} value of f if \(f(a,b) \geq f(x,y)\) for all domain points \((x,y)\) is an open disk centered at \((a,b)\).
+        \item \(f(a,b)\) is a \textbf{local minimum} value of f if \(f(a,b) \leq f(x,y)\) for all domain points \((x,y)\) is an open disk centered at \((a,b)\).
+    \end{enumerate}
+\end{definition}
+
+
+\begin{theorem}
+    If \fxy has a local maximum or minimum value at an interior point \((a,b)\) of its domain and if the first partial derivatives exist there then \(f_x(a,b)=0\) and  \(f_y(a,b)=0\).
+\end{theorem}
+
+
+\begin{definition}
+    An interior point of the domain of a function \(f(x,y)\) where both \(f_x\) and  \(f_y\) are zero or where one or both of \(f_x\) and  \(f_y\) do not exist is a \textbf{critical point } of \(f\).
+\end{definition}
+
+
+\begin{definition}
+    a differentiable function \fxy has a \textbf{saddle point} at a critical point \((a,b)\) if in every open disk centered at \((a,b)\) there are domain points \((x,y)\) where \(f(x,y) > f(a,b)\) and domain points \((x,y)\) where \(f(x,y) < f(a,b)\). The corresponding point \((a, b, f(a,b))\) on the surface \(z = f(x,y)\) is called a saddle point.
+\end{definition}
+
+
+
+\begin{example}
+    Find the local extreme values of \(f(x,y) = x^2 + y^2 -4y +9\)
+\end{example}
+
+\begin{solution}
+    The domain of \(f\) is the entire plane and the partial derivatives \(f_x = 2x\) and \(f_y = 2y -4\) exist everywhere. Therefore local extreme values can occur only where
+
+    \[f_x = 2x = 0 \quad \text{and} \quad f_y = 2y-4 = 0\] 
+    The only possibility is the point \((0,2)\), where the value of \(f\) is 5. Since \(f(x,y) = x^2 + y^2 -4y +9\)  is never less than 5, we see that the critical point \((0,2)\) gives a local minimum.
+
+\end{solution}
+
+\begin{example}
+    Find the local extreme values of \(f(x,y) = y^2 - x^2\)
+
+    \begin{solution}
+        The domain of f is the entire plane and the partial derivatives \(f_x = -2x\) and \(f_y = 2y\) exist everywhere. Therefore local extrema can only occur only at the origin \((0,0)\) where \(f_x = 0\) and \(f_y = 0\).
+        Along the positive x-axis, \(f\) has the value \(f(x,0) = -x^2 < 0\); along the positive y-axis f has the value \(f(0,y) = y^2 > 0\). Therefore, every open disk in the xy-plane centered at the origin contains points where the function is postive and negative. The function has a saddle point at the origin and no local extreme values.
+    \end{solution}
+
+\end{example}
+
+\begin{theorem}
+    Suppose that \fxy and its first and second partial derivatives are continuous throughout a disk centered at \((a,b)\) and that \(f_x(a,b) = f_y(a,b)=0\). Then
+    \begin{enumerate}
+        \item \(f\) has a \textbf{local maximum} at \((a,b)\) if \(f_{xx} < 0\) and \(f_{xx}f_{yy}-f_{xy}^2 > 0\) at \((a,b)\)
+        \item \(f\) has a \textbf{local minimum} at \((a,b)\) if \(f_{xx} > 0\) and \(f_{xx}f_{yy}-f_{xy}^2 > 0\) at \((a,b)\)
+        \item \(f\) has a \textbf{saddle point} at \((a,b)\) if  \(f_{xx}f_{yy}-f_{xy}^2 < 0\) at \((a,b)\)
+        \item \textbf{the test is inconclusive at}  \((a,b)\) \(f_{xx}f_{yy}-f_{xy}^2 = 0\) at \((a,b)\)
+    \end{enumerate}
+\end{theorem}
+
+The expression \(f_{xx}f_{yy}-f_{xy}^2 = 0\) is called the \textbf{discriminant} or \textbf{Heissian} of \(f\).
+
+\[f_{xx}f_{yy}-f_{xy}^2  = \begin{vmatrix} f_{xx} & f_{xy} \\ f_{xy} & f_{yy} \end{vmatrix}\]
+
+Theorem 11 says that if the discriminant is positive at the point (a, b), then the surface
+curves the same way in all directions: downward if \(f_{xx}\), giving rise to a local maxi-
+mum, and upward if  \(f_{xx}\) , giving a local minimum. On the other hand, if the discrimi-
+nant is negative at (a, b), then the surface curves up in some directions and down in others,
+so we have a saddle point
+
+\subsection{Absolute maxima and minima On Closed Bounded Regions}
+
+
+We organize the search for absolute extrema of a continuous function \(f(x,y)\) on a closed bounded region R by following these steps:
+
+\begin{enumerate}
+    \item List the inerior points of R where \(f\) may have a local maxima and minima and evaluate \(f\) at these points. These are the critical points of \(f\) in R.
+    \item List the boundary points of R where \(f\) may have a local maxima and minima and evaluate \(f\) at these points. 
+    \item Compare the values of \(f\) at the critical points and boundary points to determine the absolute maxima and minima of \(f\) in R.
+\end{enumerate}
+
+\section{Lagrange Multipliers}
+
+\subsection{Constrained Maxima and Minima}
+
+\begin{example}
+    Find the point \(p(x,y,z)\) on the plane \(2x + y  -z -5 = 0\) that is closest to the origin.
+
+    \begin{solution}
+        Since the problem asks us to find the minimum value of the function
+        \[\left|\overrightarrow{OP}\right| = \sqrt{(x-0)^2 + (y-0)^2 + (z- 0)^2} = \sqrt{x^2 + y^2 + z^2}  \]
+
+
+
+        subject to the constraint that
+        \[2x + y -z - 5 =0.\]
+
+        Since \(\left|\overrightarrow{OP}\right|\) has a minimum value wherever the functipn
+        \[f(x,y,z) = x^2 + y^2 + z^2\]
+        has a minimum value, we may solve the problem by finding the minimum value of \(f(x,y,z)\) subject to the constraint \(2x + y - z -5 = 0\). If we regard x and y as independent variables in this equation and write z as
+        \[z = 2x + y - 5\]
+
+        our problem reduces to one of finding the points \((x,y)\) at which the function
+        \[h(x,y) = f(x,y, 2x + y -5) = x^2 + y^2 + (2x + y -5)^2\]
+
+        has its minimum value or values. Since the domain of h is the entire xy-plane, the first derivative test tells us that any minima that h might have must occur at points where
+        \[h_x = 2x + 2(2x+ y -5)(2) = 0, \quad h_y = 2y + 2(2x+y-5) = 0\]
+        This leads to 
+        \[10x + 4y = 20, \quad 4x + 4y = 10,\]
+        which has the solution
+
+        \[x = \frac{5}{3}, \quad y = \frac56\]
+
+        We may apply a geometric argumet together with the second derivative test to show that these values minimize h. The z-coordinate of the corresponding point on the plane \(z = 2x + y -5\) is \(z = -\frac56\)
+
+        Therefore, the point we seek is 
+        \[\text{Closest Point:} \quad P \left(\frac53,\frac56,-\frac56\right)\]
+        The distance from the origin is \(\frac{5}{\sqrt{6}}\)
+
+
+
+
+
+    \end{solution}
+
+   
+\end{example}
+
+
+
+
+\begin{example}
+    Find the points on the hyperbolic cylinder \(x^2 - z^2 -1 = 0\) that are closest to the origin.
+
+    \begin{solution}
+        We seek the points on the hyperbolic cylinder closest to the origin. These are the points whose coordinates minimize the value of the function
+        \[f(x,y,z) = x^2 + y^2 + z^2\]
+        subject to the constraint that \(x^2 - z^2 -1 = 0\). If we regard x and y as independent variables inn the contraint equation, Then
+        \[z^2 = x^2 -1\]
+
+        and the values of \(f(x,y,z) = x^2 + y^2 + z^2 \) on the cylinder are given by the function
+         \[h(x,y) = x^2 + y^2 + (x^2 -1) = 2x^2 + y^2 -1\].
+
+         To find the points on the cylinder whose coordinates minimize f, we look for the points in the xy-plane whose coordinates minimize h. The only extreme values of h occurs where
+         \[h_x = 4x = 0, \quad h_y = 2y = 0\]
+         that is at the point \((0,0)\). But there are no points on the cylinder where both x and y are zero. We can avoid this problem by treating y  and z as independent variables and express x in terms of y and z as
+
+          \[x^2 = z^2 +1\]
+          With this substitution \(f(x,y,z) = x^2 + y^2 + z^2 \) becomes 
+          \[k(x,y) = (z^2 +1) + y^2 + z^2 \]
+
+          and we look for the points where k takes on its smallest value. The domain of k in the yz-plane now matches the domain from which we select the y- and z-coordinates of the points (x, y, z) on the cylinder. Hence, the points that minimize k in the plane will have corresponding points on the cylinder. The smallest values of k occur where
+          \[k_y = 2y = 0 \quad k_z = 4z = 0\],
+
+          or where \(y = z = 0\). This leads to 
+          \[x^2 = z^2 +1 = 1, \quad x = \pm 1.\]
+
+          The corresponding points on the cylinder are \(\pm 1, 0, 0\)
+
+        \end{solution}
+        \begin{solution}
+            Another way to find the points on the cylinder closest to the origin is to imagine a small sphere centered at the origin expanding like a soap bubble until it just touches the cylinder. At each point of contact, the cylinder and the sphere have the same tangent plane and the normal line. Therefore, if sphere and cylinder are represented as the level surfaces obtained by setting
+            \[f(x,y,z) = x^2 + y^2 + z^2 -a^2 \quad \textrm{and} \quad g(x,y,z) = x^2 - z^2 -1\]
+            equal to 0, then the gradients \(\nabla f\) and \(\nabla g\) will be parallel where the surfaces touch . At any point of contact, we should therefore be able to find a scalar \(\lambda\)such that
+            \[\nabla f = \lambda \nabla g\],
+            or
+            \[2x\mathbf{i} + 2y\mathbf{j} + 2z\mathbf{k} = \lambda (2x\mathbf{i} -2z \mathbf{k} )\]
+            Thus the coordinates x,y and z of any point tangency will have to satisfy the three scalar equations
+            \[2x = 2\lambda x, \quad 2y = 0, \quad 2z = -2 \lambda z.\]
+
+            \[2\lambda = 2 \quad \lambda =1\]
+            The points on the cylinder closest to the origin are the points \((\pm 1, 0,0)\).
+
+
+
+        \end{solution}
+
+        
+\end{example}
+
+
+\subsection{The Method of Lagrange Multipliers}
+
+\begin{ruleBox}{The Orthogonal Gradient Theorem}
+
+    Suppose that \(f(x,y,z)\) is differentiable in a region whose interior contains a smooth curve
+
+    \[C: \hspace*{0.5em} \mathbf{r}(t) = x(t)\mathbf{i} + y(t)\mathbf{j} + z(t)\mathbf{k}\]
+
+    If \(P_0\) is a point on C where \(f\) has a local maximum or minimum relative to its values on C, then \(\nabla f\) is orthogonal to C at \(P_0\).
+    
+\end{ruleBox}
+
+\begin{corollary}
+    At the points on the smooth curve \(\mathbf{r}(t) = x(t)\mathbf{i} + y(t)\mathbf{j}\) where a differentiable function \(f(x,y)\) takes on its local maxima and minima relative to its values of the curve, \(\nabla f \cdot r' = 0\).
+
+
+\end{corollary}
+
+
+\begin{ruleBox}{The Method of Lagrange Multipliers}
+    
+    Suppose that \( f(x,y,z) \) and \( g(x,y,z) \) are differentiable, and \( \nabla g \neq 0 \) when \( g(x,y,z) = 0 \).
+    To find the local maximum and minimum values of f subject to the constraint \(g(x,y,z) = 0\), find the values of x,y,z and \(\lambda\) that 
+    simultaneously satisfy the equations
+    \[\nabla f = \lambda \nabla g \quad \text{and} \quad g(x,y,z) = 0.\]
+
+    For functions of two independent variables, the condition is similar, but without the variable z.
+
+    
+\end{ruleBox}
+
+
+
+\subsection{Lagrange Multipliers with Two Constraints}
+
+Many problems require us to find the extreme values of a differentiable function \(f(x,y,z)\) whose variabless are subject to two constraints. If the constraints are 
+
+\[g_1(x,y,z) = 0 \quad \text{and} \quad g_2(x,y,z) = 0\]
+
+and \(g_1\) and \(g_2\) are differentiable, with \(\nabla g_1\) not parallel to \(\nabla g_2\), we find the constrained local maxima and minima of \(f\) by introducing two Lagrange multipliers \(\lambda\) and \(\mu\).
+That is, we locate the points \(P(x,y,z)\), where f takes on its constrained extreme values by finding the values of x,y,z,\(\lambda\) and \(\mu\) that simultaneously satisfy three equations
+
+
+\begin{mynote}
+    \[\nabla f = \lambda \nabla g_1 + \mu \nabla g_2, \quad g_1(x,y,z) = 0, \quad  g_2(x,y,z) = 0 \]
+    
+\end{mynote}
+
+
+
 
 \end{document}
