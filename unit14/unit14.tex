@@ -1,0 +1,430 @@
+
+\documentclass[12pt,a4paper,draft]{article}
+%setting margins
+\usepackage[margin=0.75in]{geometry}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%packages
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{blindtext}
+\usepackage{fancyhdr}
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{setspace}
+\usepackage{tcolorbox}
+\usepackage{pgfplots}
+\usepackage{multicol}
+\usepackage{subfiles} % Best loaded last in the preamble
+\pgfplotsset{compat=1.18}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{tabularray}
+\usepackage{circuitikz}
+
+\usepackage[thinc]{esdiff}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{fancy}
+\fancyhead[l]{Rüzgar Erik}
+\fancyhead[c]{Notes For the 14th Unit}
+\fancyhead[r]{MATH104}
+\fancyfoot[c]{\thepage}
+\renewcommand{\headrulewidth}{0.2pt}
+\setlength{\headheight}{15pt}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%makes all equations centered use originalequation for normal mode
+\let\originalequation\equation
+\let\endoriginalequation\endequation
+
+\renewenvironment{equation}
+  {\begin{center}\originalequation}
+  {\endoriginalequation\end{center}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Define a new tcolorbox environment named "definition"
+  \newtcolorbox{definitionbox}{
+    colback=blue!5!white,
+    colframe=blue!75!black,
+    title=DEFINITION(S)
+  }
+  
+  \newenvironment{definition}{\begin{definitionbox}}{\end{definitionbox}\vspace{1\baselineskip}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\example}{\vspace{1\baselineskip}\par\noindent\textcolor{red}{\textbf{EXAMPLE}: }}
+\newcommand{\solution}{\par\noindent\textcolor{red}{\textbf{SOLUTION}: }\vspace{1\baselineskip}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Define a new tcolorbox environment named "theorem"
+\newtcolorbox{theorembox}[1]{
+    colback=red!5!white,
+    colframe=red!75!black,
+    title=THEOREM
+  }
+  
+  \newenvironment{theorem}{\begin{theorembox}}{\end{theorembox}\vspace{1\baselineskip}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newtcolorbox{corollarybox}{
+    colback=blue!5!white,
+    colframe=blue!75!black,
+    title=Corollary
+}
+  
+\newenvironment{corollary}{\begin{corollarybox}}{\end{corollarybox}\vspace{1\baselineskip}}
+
+
+\newtcolorbox{rulebox}[1]{
+    colback=red!5!white,
+    colframe=red!75!black,
+    title=#1
+}
+
+\newenvironment{ruleBox}[1]{\begin{rulebox}{#1}}{\end{rulebox}\vspace{1\baselineskip}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Define a new tcolorbox environment named "theorem"
+
+\newtcolorbox{note}{
+    colback=white,
+    colframe=black,
+}
+
+\newenvironment{mynote}{\vspace{1\baselineskip}\begin{note}}{\end{note}\vspace{1\baselineskip}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\newcommand{\lopital}{L'Hôpital's Rule }
+\newcommand{\anc}{\(\{a_n\}\)}
+\newcommand{\fxy}{\(f(x,y)\)}
+\newcommand{\an}{\(a_n\)}
+
+\newcommand{\infsum}{\sum_{n=1}^{\infty}}
+\fancypagestyle{firstpage}{
+    \fancyhf{} % Clear header and footer
+    \renewcommand{\headrulewidth}{0pt} % Remove header rule
+}
+
+% Redefine \maketitle to include a fancy box
+\makeatletter
+\renewcommand{\maketitle}{%
+  \thispagestyle{firstpage} % Apply the firstpage style for the first page
+  \begin{tcolorbox}[colback=white,colframe=black,width=\textwidth,arc=0mm,auto outer arc]
+    \begin{center}
+      \Large \@title \\[1ex] \large \@date \\ \textit{Rüzgar ERİK}
+    \end{center}
+  \end{tcolorbox}
+}
+\makeatother
+
+\usepackage{parskip}
+\setlength{\parindent}{0pt} % Disable paragraph indentation
+
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+
+
+\title{Multiple Integrals}
+\date{MATH 104}
+\maketitle
+\tableofcontents % This command generates the index page
+
+\newpage % Start a new page for the content
+
+\section{Double and Iterated Integrals over Rectangles}
+
+\subsection{Double Integrals}
+
+We begin our investigations of double integrals by considering the simplest type of region, a rectangle. We consider a function \(f(x,y)\) defined on a rectangular region R,
+
+\[R: \quad a \leq x \leq b, \ c \leq y \leq d\].
+
+We subdivide \textit{R} into small rectangles using a network of lines parallel to the x- and y-axes.
+The lines divide R into n rectangular pieces, where the number of such pieces n gets large as the width and height of each piece gets small. These rectangles form a \textbf{partition} of \textit{R}. 
+A small rectangular piece of width \(\Delta x\) and height \(\Delta y\) has area \(\Delta A = \Delta x \Delta y\). If we number the small pieces partitioning \textit{R} in some order, then their areas are given by numbers \(\Delta A_1, \Delta A_2 , \dots , \Delta A_n\) where \(\Delta A_k\) is the area of the kth small rectangle.
+
+
+To form a Riemann sum over \textit{R}, we choose a point \((x_k,y_k)\) in the kth small rectangle, multiply the value of \(f\) at that point by the area \(\Delta A_k\), and add together the products:
+
+\[S_n = \sum_{k=1}^{n}f(x_k,y_k)\Delta A_k.\]
+
+Depending on how we pick \((x_k,y_k)\) in the kth small rectangle, we may get different values for \(S_n\).
+
+
+We are interested in what happens to these Riemann sums as the widths and heights of all the small rectangles in the partition of R approach zero. The \textbf{norm} of  a partition \textit{P} is written \(\Vert R \Vert\), is the largest width or height of any rectangle in the partition.
+If \(\Vert R \Vert = 0.1\) then all the rectangles in the partition of R have width at most \(0.1\) and height at most \(0.1\).  Sometimes the Riemann sums converge as the norm of \textit{\textbf{R}} goes to zero, written \(\Vert P \Vert  \to 0\). 
+
+The resulting limit is written as
+\[\lim_{\Vert P \Vert \to 0} \sum_{k=1}^{n}f(x_k,y_k)\Delta A_k\]
+
+as \(\Vert P \Vert  \to 0\) and the rectangles get narrow and short, their number n increases, so we can also write the limit as
+\[\lim_{n \to \infty} \sum_{k=1}^{n}f(x_k,y_k)\Delta A_k\]
+
+with understanding that  \(\Vert P \Vert  \to 0\), and hence \(\Delta A_k \to 0\) as \(n \to \infty\).
+
+When a limit of the sums \(S_n\) exists, giving the same limiting value no matter what choices are made, then the function \(f\) is said to be \textbf{integrable} and the limit is called the \textbf{double integral} of \(f\) over \textit{R}, written as
+\[\int \int_{R}^{} f(x,y) \mathrm{d}A \quad \mathrm{or} \quad \int \int_{R}^{} f(x,y) \mathrm{d}x \mathrm{d}y \]
+
+
+
+\subsection{Double Integrals as Volumes}
+
+When \(f(x,y)\) is a positive function over a rectangular area \textit{R} in the xy-plane, we may interpret the double integral of \(f\) over \textit{R} as the volume of the 3-dimensional solid region over the xy-plane bounded below by \textit{R}  and above by the surface \(z = f(x,y)\). Each term \(f(X_K,y_k)\Delta A_k \) in the sum  \(S_n = \sum f(x_k,y_k)\Delta A_k\) is the volume of a vertical rectangular box that approximates the volume of the portion of the solid that stands directly above the base \(\Delta A_k\). The sum \(S_n\) thus approximates what we want to call the total volume of the solid that stands directly above the base \(\Delta A_k\).  
+
+
+\subsection{Fubini's Theorem for Calculating Double Integrals}
+
+Suppose that we wish to calculate the volume under the plane \(z = 4 - x -y\) over the rectangular region \(R: 0 \leq x \leq 2, 0 \leq y \leq 1\) in the xy-plane. If we apply the method of slicing, with slices perpendicular to the x-axis, then the volume is
+
+\[\int_{x=0}^{x=2}A(x)\mathrm{d}x\],
+
+where \(A(x)\) is the cross-sectional area at x. For each value of x, we may calculate \(A(x)\) as the integral
+
+\[A(X) = \int_{y=0}^{y=1}(4 - x - y)\mathrm{d}y\],
+
+which is the area under the curve in the plane of the cross-section at x. In calculating \(A(x)\), x is held fixed and the integration takes place with respect to y. Combining the equations the volume of the entire solid is
+\[\text{Volume}= \ \int_{0}^{2} \int_{0}^{1}(4 - x - y) \mathrm{d}y\mathrm{d}x\].
+
+
+\begin{ruleBox}{Fubini's Theorem First Form}
+
+    If \(f(x,y)\) is continuous throughout the rectangular region \(R: a \leq x \leq b, c \leq y \leq d\) then
+
+    \[\iint_R f(x, y) d A=\int_c^d \int_a^b f(x, y) d x d y=\int_a^b \int_c^d f(x, y) d y d x\]
+
+\end{ruleBox}
+
+\section{Double Integrals over General Regions}
+
+\subsection{Double Integrals over Bounded, Nonrectangular Regions}
+\begin{ruleBox}{Fubini's Theorem (Stronger Form)}
+
+    Let \(f(x,y)\) be continuous on a region R. 
+
+    \begin{enumerate}
+        \item If R is defined by \(a \leq x \leq b, g_1(x) \leq y g_2(x)\), with \(g_1\) and \(g_2\) continuous on \([a,b]\) then, \[\iint_R f(x, y) d A=\int_a^b \int_{g_1(x)}^{g_2(x)} f(x, y) d y d x .\]
+        \item If R is defined by \(c \leq y \leq d, h_1(y) \leq x \leq h_2(y)\), with \(h_1\) and \(h_2\) continuous on \([c,d]\), then \[\iint_R f(x, y) d A=\int_c^d \int_{h_1(y)}^{h_2(y)} f(x, y) d x d y\]
+    \end{enumerate}
+    
+\end{ruleBox}
+
+\subsection{Finding the Limits of Integration}
+
+\textit{\textbf{Using Vertical Cross-Sections}}
+\begin{enumerate}
+    \item Sketch. Sketch the region of integration and label the bounding curves.
+    \item Find the y-limits of integration. Imagine a vertical line cuttting through R in the direction of increasing y. Mark the y-values where L enters and leaves. These are y-limits of integration and are usually functions of x.
+    \item \textit{Find the x-limits of the integration.} Choose x-limits that include all the vertical lines through R. The integral shown in the figure is
+    
+
+\end{enumerate}
+
+
+
+
+\subsection{Properties of Double Integrals}
+
+
+
+\begin{mynote}
+
+If \fxy and \(g(x,y)\) are continuous on the bounded region \textit{R}, then the following properties hold.
+
+\begin{enumerate}
+    \item Constant Multiple: \[\iint_R c f(x,y) \mathrm{d}A = c \cdot \iint_R  f(x,y) \mathrm{d}A\]
+    \item Sum and difference: \[\iint_R (f(x,y) \pm g(x,y)) \mathrm{d}A = \iint_R f(x,y) \mathrm{d}A  \pm \iint_R g(x,y) \mathrm{d}A\]
+    \item Domination: 
+    \begin{enumerate}[label=\alph*)]
+        \item \[\iint_R f(x,y) \mathrm{d}A \geq 0 \quad \mathrm{if} \quad f(x,y) \geq 0 \ on \  R\]
+        \item \[\iint_R f(x,y) \mathrm{d}A \geq \iint_R g(x,y) \mathrm{d}A \quad \mathrm{if} \quad f(x,y) \geq g(x,y) \ on \ R\]
+    \end{enumerate}
+    \item Additivity: If \textit{R} is the union of two non overlapping Regions \(R_1\) and \(R_2\), then \[\iint_R f(x,y) \mathrm{d}A =\iint_{R_1} f(x,y) \mathrm{d}A + \iint_{R_2} f(x,y) \mathrm{d}A\]
+\end{enumerate}
+
+
+\end{mynote}
+  
+
+\section{Area by Double Integration}
+
+
+\subsection{Areas of Bounded Regions in the Plane}
+
+If we take \(f(x,y) = 1\) in the definition of the double integral over a region \textit{R} in the preceding section, the Riemann sums reduce to 
+\[S_n = \sum_{k=1}^{n} f(x_k,y_k) \Delta A_k = \sum_{k=1}^{n} \Delta A_k.\]
+
+\begin{definition}
+    The \textbf{area} of a closed, bounded plane region \textit{R} is 
+
+    \[A = \iint_R \mathrm{d}A\]
+\end{definition}
+
+
+\subsection{Average Value}
+
+
+\begin{mynote}
+    \textbf{Average Value } of \(f\) over \textit{R} \[\frac{1}{\text{area of R}  } \iint_R f \mathrm{d}A\] 
+
+
+\end{mynote}
+
+\section{Double Integrals In Polar Form}
+
+
+\subsection{Integrals In Polar Coordinates}
+
+
+When we defined the double integral of a function over a region \textit{R} in the xy-plane, we began by cutting \textit{R} into rectangles whose sides were parallel to the coordinate axes. These were the natural shapes to use because their sides have either constant x-values or constant y-values. In polar coordinates, the natural shape is "polar rectangle" whose sides have constant r- and \(\theta\)-values.
+To avoid ambiguities when describing the region of integration with polar coordinates, we use polar coordinate points \((r, \theta)\) where \(r \geq 0\).
+
+Suppose a function \(f(r, \theta)\) is defined over a region \textit{R} that is bounded by the rays \(\theta = \alpha\) and \(\theta = \beta\) and by the continuous curves \(r = g_1(\theta)\) and \(r = g_2(\theta)\).
+Suppose also that \(0 \leq g_1(\theta) \leq g_2(\theta) \leq \alpha\) for every value of \(\theta\) between \(\alpha\) and \(\beta\). Then \textit{R} lies in a fan shaped region Q defined by the inequalities \(0 \leq r \leq a\) and \(\alpha \leq \theta \leq \beta\) where \(0 \leq \beta - \alpha \leq 2 \pi\)
+
+
+We cover Q by a grid of circular arcs and rays. The arcs are cut from circles centered at the origin, with radii \(\Delta r, \Delta 2r, \dots , m \Delta r\) where \(\Delta r = \frac{a}{m}\).The rays are given by
+\[\theta = \alpha, \quad \theta = \alpha + \Delta \theta, \quad \theta = \alpha + 2 \Delta \theta , \quad \dots, \theta = \alpha + m' \Delta \theta = \beta\]
+
+where \(\Delta \theta = (\beta - \alpha) / m'\). The arcs and rays partition Q into smaller patches called called "polar rectangles" 
+
+We number the polar rectangles that lie inside \textit{R}, calling their areas \(\Delta A_1, \Delta A_2 , \dots , \Delta A_n\) where \(\Delta A_n\). We let \((r_k, \theta_k)\) be any point in the polar rectangle whose area is \(\Delta A_k\). We form the sum
+
+\[S_n = \sum_{k=1}^{n} f(r_k,\theta_k) \Delta A_k\].
+
+If f is continuous throughout \textit{R}, this sum will approach a limit as we define the grid to make \(\Delta r\) and \(\Delta \theta\) go to zero. The limit is called the double integral of \(f\) over \textit{R}. In symbols,
+
+\[\lim_{n \to \infty} S_n = \iint_R f(r, \theta) \mathrm{d}A\]
+
+
+To evaluate this limit, we first have to write the sum \(S_n\) in a way that expresses \(\Delta A_k\) in terms of \(\Delta R\) and \(\Delta \theta\). For convenience we choose \(r_k\) to be the average of the radii of the inner and outer arcs bounding the kth polar rectangle \(\Delta A_k\). The radius of the inner arc bounding \(\Delta A_k\) is then \(r_k - (\Delta r / 2)\).
+The radius of the outer arc is \(r_k + (\Delta r / 2)\)
+
+The area of a wedge-shaped sector of a circle having radius r and angle \(\theta\) is 
+
+\[A = \frac{1}{2} \theta r^2\]
+
+as can be seen by multiplying \(\pi r^2\), the area of the circle, by \(\theta / 2 \pi\), the fraction of the circle's area contained in the wedge. So the areas of the circular sectors subtended by these arcs at the origin are
+
+\begin{align*}
+    \text{Inner Radius: } \quad \frac{1}{2} \left( r_k - \frac{\Delta r}{2}\right)^2 \Delta \theta \\
+    \\
+    \text{Inner Radius: } \quad \frac{1}{2} \left( r_k + \frac{\Delta r}{2}\right)^2 \Delta \theta 
+\end{align*}
+
+Therefore 
+
+
+\begin{align*}
+    \Delta A_k &= \text{area of the large sector} - \text{area of the small sector}\\
+    &=\frac{\Delta \theta}{2}\left[\left(r_k+\frac{\Delta r}{2}\right)^2-\left(r_k-\frac{\Delta r}{2}\right)^2\right]=\frac{\Delta \theta}{2}\left(2 r_k \Delta r\right)=r_k \Delta r \Delta \theta.
+\end{align*}
+
+
+A version of Fubini's Theorem says that the limit approached by these sums can be evaluated by repeated single integrations with respect tot r and \(\theta\) as
+
+\[\iint_R f(r, \theta) dA = \int_{\theta = \alpha}^{\theta = \beta} \int_{r = g_1(\theta)}^{g_2(\theta)}f(r,\theta) r dr d\theta\]
+
+
+
+
+\subsection{Finding Limits of Integration}
+
+\begin{enumerate}
+    \item Sketch. Sketch the region and label the bounding curves.
+    \item Find the r limits of the integration. 
+    \item Find \(\theta\)-limits of the integration. Find the smallest and largest \(\theta\)-values that bound R. 
+\end{enumerate}
+
+
+
+
+
+\begin{mynote}
+    \textcolor{blue}{\textbf{Area in Polar Coordinates}} \\
+    The area of a a closed and bounded region R in the polar coordinate plane is
+    \[A = \iint_R r dr d \theta\]
+\end{mynote}
+
+
+\newpage
+
+\subsection{Changing Cartesian Integrals into Polar Integrals}
+
+The procedure for changing a Cartesian integral into a polar integral has two steps. First substitute \(x = r \cos \theta\) and \(y = r \sin \theta\) and replace \(\mathrm{d}x \mathrm{d}y\) by \(r \mathrm{d}r \mathrm{d}\theta\) in the cartesian integral. Then supply polar limits of integration for the boundry of R. The cartesian integral becomes
+
+\[\iint_R f(x,y) dx dy = \iint_G f(r \cos \theta, r \sin \theta) r dr d\theta\]
+
+
+
+
+\section{Triple Integrals in Rectangular Coordinates}
+
+\section{Volume of a Region in Space}
+
+If F is the constant function whose value is 1, then the sums reduce to
+
+\[S_n = \sum_{k=1}^{n} F(x_k, y_k ,z_k) \Delta V_k = \sum_{k=1}^{n} 1 \cdot \Delta V_k = \sum_{k=1}^{n}  \Delta V_k \] 
+
+
+
+
+As \(\Delta x_k\), \(\Delta y_k\), and \(\Delta z_k\) approach zero, the cells \(\Delta V_k\) become small and more numerous and fill up more and more of D. We therefore define the volume of D to be the triple integral.
+
+\[\lim_{n \to \infty} \Delta V_k = \iiiint_D dV\]
+
+
+
+\begin{definition}
+    The \textbf{volume} of a solid region D in space is
+    \[V = \iiint_D \mathrm{d}V\]
+\end{definition}
+
+
+\subsection{Finding limits of Integration in the order dz dy dx}
+
+We evaluate a triple integral by applying a three-dimensional version of Fubini's Theorem to evaluate it by three repeated single integrations. As with double integrals, there is a geometric procedure for finding the limits of the integration for these integrals.
+
+To evaluate 
+\[\iiint_D F(x,y,z) dV\]
+
+over a region D, integrate first with respect to z, then with respect to y, and finally with respect to x. The limits of integration are found by projecting D onto the xy-plane and then projecting the resulting region onto the x-axis.
+
+\begin{enumerate}
+    \item Sketch. Sketch the region D along with its shadow R in the xy-plane. Label the upper and lower bounding surfaces of D and the bounding curves of R.
+    \item Find the z-limits of the integration. Draw a line M passing through a typical point \((x,y)\) in R parallel to the z-axis. As z increases, M enters D at \(z = f_1(x,y)\) and leaves at \(z = f_2(x,y)\). These are the z-limits of integration.
+    \item Find the y-limits of the integration. For each value of x, the line segment in R that lies above x is bounded below by the curve \(y = g_1(x)\) and above by \(y = g_2(x)\). These are the y-limits of integration.
+    \item Find the x-limits of the integration. Choose x-limits that include all the vertical lines through R. The integral is \[ \int_{x=a}^{x=b}\int_{y=g_1(x)}^{y=g_2(x)}\int_{z = f_1(x,y)}^{z = f_2(x,y)} F(x,y,z) dz dy dx\]
+\end{enumerate}
+
+\subsection{Average Value of a Function in Space}
+
+The average value of a function \(F(x,y,z)\) over a solid region D is
+
+\begin{mynote}
+    \[\frac{1}{\text{Volume of D}} \iiint_D F(x,y,z) dV\]
+\end{mynote}
+
+
+
+\end{document}
